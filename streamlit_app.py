@@ -1,28 +1,54 @@
 import streamlit as st
 import requests
-from datetime import date
 
-st.title("レース予測アプリ")
+# アプリのタイトル設定
+st.title("AI検索エンジンインターフェース")
 
-# 日付入力
-race_date = st.date_input("レースの日付を選択", value=date.today())
+# サイドバーに設定情報
+with st.sidebar:
+    st.header("設定")
+    api_url = st.text_input(
+        "APIエンドポイントURL",
+        value="http://localhost:8000/search"
+    )
 
-# レース名入力
-race_name = st.text_input("レース名を入力")
+# メインインターフェース
+question = st.text_input("検索したい質問を入力してください", key="input_question")
 
-# 予測ボタン
-if st.button("予測を実行"):
-    if race_name:
-        # APIリクエスト
-        response = requests.post(
-            "http://localhost:8000/predict",
-            json={"date": str(race_date), "race_name": race_name}
-        )
-        
-        if response.status_code == 200:
-            result = response.json()
-            st.write("予測結果:", result["prediction"])
-        else:
-            st.error("予測に失敗しました。")
+if st.button("検索実行"):
+    if not question:
+        st.warning("質問を入力してください")
     else:
-        st.warning("レース名を入力してください。")
+        try:
+            # FastAPIへのリクエスト送信
+            response = requests.post(
+                api_url,
+                json={"question": question},
+                headers={"Content-Type": "application/json"}
+            )
+            
+            # レスポンスの処理
+            if response.status_code == 200:
+                result = response.json()
+                st.success("検索結果:")
+                st.markdown(f"**回答**: {result['answer']}")
+            else:
+                st.error(f"エラーが発生しました: {response.text}")
+                
+        except requests.exceptions.ConnectionError:
+            st.error("APIサーバーに接続できませんでした。サーバーが起動しているか確認してください")
+        except Exception as e:
+            st.error(f"予期せぬエラーが発生しました: {str(e)}")
+
+# 実行方法の説明
+st.markdown("""
+### 実行方法
+1. 別ターミナルでFastAPIサーバーを起動:
+```bash
+python -m uvicorn app.main:app --reload
+```
+2. 別ターミナルでStreamlitアプリを起動:
+```bash
+streamlit run streamlit_app.py
+```
+""")

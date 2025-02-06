@@ -1,7 +1,8 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import uvicorn
-from langgraph.graph import StateGraph, END, AgentState
+from langgraph.graph import StateGraph, END
+from app.state import AgentState
 from langchain_core.messages import HumanMessage
 from langgraph.checkpoint.memory import MemorySaver
 from app.steps import steps_node
