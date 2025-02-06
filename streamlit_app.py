@@ -8,8 +8,7 @@ st.title("AI検索エンジンインターフェース")
 with st.sidebar:
     st.header("設定")
     api_url = st.text_input(
-        "APIエンドポイントURL",
-        value="http://localhost:8000/search"
+        "APIエンドポイントURL", value="http://localhost:8000/search"
     )
 
 # メインインターフェース
@@ -24,9 +23,9 @@ if st.button("検索実行"):
             response = requests.post(
                 api_url,
                 json={"question": question},
-                headers={"Content-Type": "application/json"}
+                headers={"Content-Type": "application/json"},
             )
-            
+
             # レスポンスの処理
             if response.status_code == 200:
                 result = response.json()
@@ -34,9 +33,11 @@ if st.button("検索実行"):
                 st.markdown(f"**回答**: {result['answer']}")
             else:
                 st.error(f"エラーが発生しました: {response.text}")
-                
+
         except requests.exceptions.ConnectionError:
-            st.error("APIサーバーに接続できませんでした。サーバーが起動しているか確認してください")
+            st.error(
+                "APIサーバーに接続できませんでした。サーバーが起動しているか確認してください"
+            )
         except Exception as e:
             st.error(f"予期せぬエラーが発生しました: {str(e)}")
 

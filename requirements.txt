@@ -6,3 +6,4 @@ langchain-core
 langchain
 requests
 python-dotenv
+langchain_community
