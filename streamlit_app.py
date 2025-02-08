@@ -7,9 +7,7 @@ st.title("AI検索エンジンインターフェース")
 # サイドバーに設定情報
 with st.sidebar:
     st.header("設定")
-    api_url = st.text_input(
-        "APIエンドポイントURL", value="http://localhost:8000/search"
-    )
+    api_url = st.text_input("APIエンドポイントURL", value="http://fastapi:8000/search")
 
 # メインインターフェース
 question = st.text_input("検索したい質問を入力してください", key="input_question")
