@@ -8,10 +8,8 @@ services:
       - "8000:8000"
     volumes:
       - .:/app
-    environment:
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
-      - TAVILY_API_KEY=${TAVILY_API_KEY}
-      - LANGSMITH_API_KEY=${LANGSMITH_API_KEY}
+    env_file:
+      - .env
 
   streamlit:
     build: .
@@ -20,3 +18,5 @@ services:
       - "8501:8501"
     volumes:
       - .:/app
+    env_file:
+      - .env
