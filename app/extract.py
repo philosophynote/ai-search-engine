@@ -28,26 +28,15 @@ async def extract_node(state: AgentState, config: RunnableConfig):
     system_message = f"""
 This step was just executed: {json.dumps(current_step)}
 
-This is the result of the search:
+The search has returned a set of results related to corporate information.
 
-Please summarize ONLY the result of the search and include all relevant information from the search and reference links.
-DO NOT INCLUDE ANY EXTRA INFORMATION. ALL OF THE INFORMATION YOU ARE LOOKING FOR IS IN THE SEARCH RESULTS.
+Please summarize ONLY the search results and return the summary in the JSON format described in the README.
+The JSON response must include the following keys:
+- company_name, furigana, corporate_number, location, representative_name, officer_names, company_url, service_url, industry, establishment_date, capital, number_of_employees, phone_number, source_urls
 
-DO NOT answer the user's query yet. Just summarize the search results.
-
-Use markdown formatting and put the references inline and the links at the end.
-Like this:
-This is a sentence with a reference to a source [source 1][1] and another reference [source 2][2].
-[1]: http://example.com/source1 "Title of Source 1"
-[2]: http://example.com/source2 "Title of Source 2"
+Do not include any extra information.
+Format the answer strictly as JSON.
 """
-
-    # 検索結果のみを要約し、検索結果および参照リンクからの関連情報をすべて含めてください。
-    # 余分な情報は含めないでください。探している情報はすべて検索結果にあります。
-
-    # ユーザーの質問にはまだ答えないでください。検索結果を要約してください。
-
-    # マークダウン形式を使用し、参考文献はインラインで、リンクは最後に記述する。
 
     response = await get_model(state).ainvoke(
         [state["messages"][0], HumanMessage(content=system_message)], config

@@ -13,6 +13,8 @@ from langchain.tools import tool
 from pydantic import BaseModel, Field
 from app.state import AgentState
 from app.model import get_model
+# 新しい CompanyInfo を import
+from app.types.companyinfo import CompanyInfo
 
 
 class SearchStep(BaseModel):
@@ -44,11 +46,18 @@ async def steps_node(state: AgentState, config: RunnableConfig):
     """
     The steps node is responsible for building the steps in the research process.
     """
+    # 調査対象を制限するため、CompanyInfo のキーのみを対象とする旨を追記
+    corporate_keys = ", ".join([
+        "company_name", "furigana", "corporate_number", "location",
+        "representative_name", "officer_names", "company_url", "service_url",
+        "industry", "establishment_date", "capital", "number_of_employees",
+        "phone_number", "source_urls"
+    ])
     instructions = f"""
-You are a search assistant. Your task is to help the user with complex search queries by breaking the down into smaller steps.
-
-These steps are then executed serially. In the end, a final answer is produced in markdown format.
-
+You are a corporate information search assistant.
+Your task is to help the user with complex queries regarding corporate details by breaking them down into smaller steps.
+Each step should contribute to finding information limited to the following keys: {corporate_keys}.
+Do not search for unrelated or extraneous information.
 The current date is {datetime.now().strftime("%Y-%m-%d")}.
 """
 

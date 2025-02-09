@@ -34,14 +34,14 @@ async def search_node(state: AgentState, config: RunnableConfig):
         raise ValueError("Current step is not a search step")
 
     instructions = f"""
-This is a step in a series of steps that are being executed to answer the user's query.
+This is a step in a series of steps aimed at retrieving detailed corporate information.
 These are all of the steps: {json.dumps(state["steps"])}
 
-You are responsible for carrying out the step: {json.dumps(current_step)}
-
+You are responsible for executing the following search step: {json.dumps(current_step)}
 The current date is {datetime.now().strftime("%Y-%m-%d")}.
-
-This is what you need to search for, please come up with a good search query: {current_step["description"]}
+Please generate an effective search query to find corporate details relevant to the following description:
+{current_step["description"]}
+Ensure that the search query is optimized for retrieving corporate information.
 """
     model = get_model(state).bind_tools([tavily_tool], tool_choice=tavily_tool.name)
 
