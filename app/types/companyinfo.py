@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 
 class CompanyInfo(BaseModel):
     company_name: str
@@ -15,3 +15,12 @@ class CompanyInfo(BaseModel):
     number_of_employees: int
     phone_number: str
     source_urls: list[str]
+
+    @field_validator("number_of_employees", mode="before")
+    def remove_commas(cls, v):
+        if isinstance(v, str):
+            try:
+                return int(v.replace(",", ""))
+            except ValueError:
+                raise ValueError(f"Invalid number for number_of_employees: {v}")
+        return v

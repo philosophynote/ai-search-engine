@@ -28,6 +28,7 @@ if st.button("検索実行"):
             if response.status_code == 200:
                 result = response.json()
                 st.success("検索結果:")
+                st.text(response)
                 st.markdown(f"**回答**: {result['answer']}")
             else:
                 st.error(f"エラーが発生しました: {response.text}")

@@ -34,6 +34,7 @@ Please summarize ONLY the search results and return the summary in the JSON form
 The JSON response must include the following keys:
 - company_name, furigana, corporate_number, location, representative_name, officer_names, company_url, service_url, industry, establishment_date, capital, number_of_employees, phone_number, source_urls
 
+For the "industry" key, ensure the answer is always chosen from the names provided in industry.md.
 Do not include any extra information.
 Format the answer strictly as JSON.
 """
