@@ -26,9 +26,5 @@ def get_model(state: AgentState) -> BaseChatModel:
         from langchain_anthropic import ChatAnthropic  # pylint: disable=import-outside-toplevel
 
         return ChatAnthropic(temperature=0, model="claude-3-5-sonnet-20240620")
-    if model == "google_genai":
-        from langchain_google_genai import ChatGoogleGenerativeAI  # pylint: disable=import-outside-toplevel
-
-        return ChatGoogleGenerativeAI(temperature=0, model="gemini-1.5-pro")
 
     raise ValueError("Invalid model specified")
