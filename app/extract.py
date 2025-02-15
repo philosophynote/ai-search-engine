@@ -28,6 +28,8 @@ async def extract_node(state: AgentState, config: RunnableConfig):
     system_message = f"""
 This step was just executed: {json.dumps(current_step)}
 
+NOTE: When generating the output, ensure that the 'capital' and 'number_of_employees' fields conform to the CompanyInfo type definition (i.e. they must be integers).
+
 The search has returned a set of results related to corporate information.
 
 Please summarize ONLY the search results and return the summary in the JSON format described in the README.
