@@ -11,7 +11,7 @@ class CompanyInfo(BaseModel):
     service_url: str
     industry: str
     establishment_date: str
-    capital: str
+    capital: int
     number_of_employees: int
     phone_number: str
     source_urls: list[str]
