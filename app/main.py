@@ -72,7 +72,6 @@ async def search(request: QueryRequest):
     try:
         # グラフを非同期で実行
         final_state = await graph.ainvoke(initial_state, config=config)
-        print(final_state)
         try:
             answer = final_state["steps"][-1]["result"]
         except (KeyError, IndexError):

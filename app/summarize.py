@@ -48,9 +48,5 @@ Do not include any extra information.
             ],
         )
     )
-    print("state:")
-    print(state)
-    print("response:")
-    print(response)
     # CompanyInfo 型のデータを JSON 形式で返却
     return response
